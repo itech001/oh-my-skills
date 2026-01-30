@@ -1,0 +1,30 @@
+[submodule "submodules/ui-ux-pro-max"]
+	path = submodules/ui-ux-pro-max
+	url = https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git
+[submodule "submodules/claude-skills"]
+	path = submodules/claude-skills
+	url = https://github.com/anthropics/skills.git
+[submodule "submodules/superpowers"]
+	path = submodules/superpowers
+	url = https://github.com/obra/superpowers.git
+[submodule "submodules/planning-with-files"]
+	path = submodules/planning-with-files
+	url = https://github.com/OthmanAdi/planning-with-files.git
+[submodule "vercel-skills"]
+	path = vercel-skills
+	url = https://github.com/vercel-labs/agent-skills.git
+[submodule "submodules/vercel-skills"]
+	path = submodules/vercel-skills
+	url = https://github.com/vercel-labs/agent-skills.git
+[submodule "submodules/awesome-skills"]
+	path = submodules/awesome-skills
+	url = https://github.com/sickn33/antigravity-awesome-skills.git
+[submodule "submodules/everything-skills"]
+	path = submodules/everything-skills
+	url = https://github.com/affaan-m/everything-claude-code.git
+[submodule "submodules/moltbot-skills"]
+	path = submodules/moltbot-skills
+	url = https://github.com/VoltAgent/awesome-openclaw-skills.git
+[submodule "submodules/openclaw-skills"]
+	path = submodules/openclaw-skills
+	url = https://github.com/openclaw/skills.git
