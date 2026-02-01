@@ -10,9 +10,6 @@
 [submodule "submodules/planning-with-files"]
 	path = submodules/planning-with-files
 	url = https://github.com/OthmanAdi/planning-with-files.git
-[submodule "vercel-skills"]
-	path = vercel-skills
-	url = https://github.com/vercel-labs/agent-skills.git
 [submodule "submodules/vercel-skills"]
 	path = submodules/vercel-skills
 	url = https://github.com/vercel-labs/agent-skills.git
@@ -28,3 +25,6 @@
 [submodule "submodules/openclaw-skills"]
 	path = submodules/openclaw-skills
 	url = https://github.com/openclaw/skills.git
+[submodule "submodules/awesome-copilot"]
+	path = submodules/awesome-copilot
+	url = https://github.com/github/awesome-copilot.git
