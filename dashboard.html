@@ -3,332 +3,437 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skills Catalog Dashboard</title>
+    <title>Oh My Skills - Agentic Skills Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'glass-bg': 'rgba(255, 255, 255, 0.1)',
+                        'glass-border': 'rgba(255, 255, 255, 0.2)',
+                    },
+                    backdropBlur: {
+                        'xs': '2px',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        :root {
-            --forest-green: #059669;
-            --forest-green-dark: #064E3B;
-            --sage-green: #10B981;
-            --earth-cream: #ECFDF5;
-            --warm-clay: #D4C4A8;
-            --terracotta: #C67B5C;
-            --shadow-soft: 0 8px 32px rgba(5, 150, 105, 0.12);
-            --shadow-hover: 0 12px 48px rgba(5, 150, 105, 0.18);
-        }
-
-        * {
-            font-family: 'Open Sans', sans-serif;
-        }
-
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Poppins', sans-serif;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
         body {
-            background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 50%, #A7F3D0 100%);
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a1f0a 0%, #1a3a1a 50%, #0d2d0d 100%);
             min-height: 100vh;
         }
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(5, 150, 105, 0.1);
-            box-shadow: var(--shadow-soft);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .glass-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-hover);
-            border-color: rgba(5, 150, 105, 0.2);
+        .glass-input {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .search-input {
-            background: rgba(255, 255, 255, 0.9);
-            border: 2px solid rgba(5, 150, 105, 0.15);
+        .skill-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .skill-card:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(34, 197, 94, 0.2);
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             transition: all 0.2s ease;
         }
 
-        .search-input:focus {
-            border-color: var(--forest-green);
-            box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.1);
-            outline: none;
+        .filter-btn:hover {
+            background: rgba(34, 197, 94, 0.2);
+            border-color: rgba(34, 197, 94, 0.5);
         }
 
-        .skill-tag {
-            background: linear-gradient(135deg, rgba(5, 150, 105, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%);
-            border: 1px solid rgba(5, 150, 105, 0.15);
+        .filter-btn.active {
+            background: rgba(34, 197, 94, 0.3);
+            border-color: rgba(34, 197, 94, 0.6);
+        }
+
+        .tag {
+            background: rgba(34, 197, 94, 0.15);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .tag:hover {
+            background: rgba(34, 197, 94, 0.3);
+            cursor: pointer;
         }
 
         .source-badge {
-            font-size: 0.65rem;
-            padding: 0.25rem 0.5rem;
-            border-radius: 9999px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .source-awesome { background: #FEF3C7; color: #92400E; }
-        .source-claude { background: #EDE9FE; color: #5B21B6; }
-        .source-openclaw { background: #FEE2E2; color: #991B1B; }
-        .source-everything { background: #DBEAFE; color: #1E40AF; }
-        .source-superpowers { background: #FCE7F3; color: #9D174D; }
-        .source-planning { background: #E0E7FF; color: #3730A3; }
-        .source-vercel { background: #F0FDF4; color: #166534; }
-        .source-uiux { background: #FFEDD5; color: #9A3412; }
-        .source-skillssh { background: #DCFCE7; color: #166534; }
-        .source-moltbot { background: #F3E8FF; color: #6B21A8; }
-
-        .leaf-pattern {
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5c-5 10-15 15-25 15 5 15 15 25 25 35 10-10 20-20 25-35-10 0-20-5-25-15z' fill='%23059669' fill-opacity='0.03'/%3E%3C/svg%3E");
+        .scrollbar-thin::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
         }
 
-        .fade-in {
-            animation: fadeIn 0.3s ease-in-out;
+        .scrollbar-thin::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+            background: rgba(34, 197, 94, 0.3);
+            border-radius: 3px;
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .skeleton {
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
-
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(5, 150, 105, 0.05);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: rgba(5, 150, 105, 0.3);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(5, 150, 105, 0.5);
+        .stat-card {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.2);
         }
     </style>
 </head>
-<body class="leaf-pattern">
-    <!-- Header with Search -->
-    <header class="fixed top-4 left-4 right-4 z-50">
-        <div class="glass-card rounded-2xl px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center shadow-lg">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+<body class="text-white">
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-5xl font-bold mb-3 bg-gradient-to-r from-green-400 to-emerald-300 bg-clip-text text-transparent">
+                Oh My Skills
+            </h1>
+            <p class="text-gray-300 text-lg mb-2">
+                <span id="total-skills" class="text-green-400 font-semibold">0</span> High-Quality Agentic Skills
+            </p>
+            <p class="text-gray-400 text-sm">
+                Browse skills from multiple collections including skills.sh (120,000+ more available)
+            </p>
+        </header>
+
+        <!-- Stats Overview -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="stat-card glass-card rounded-xl p-4 text-center">
+                <div id="stat-total" class="text-2xl font-bold text-green-400">0</div>
+                <div class="text-xs text-gray-400 mt-1">Total Skills</div>
+            </div>
+            <div class="stat-card glass-card rounded-xl p-4 text-center">
+                <div id="stat-sources" class="text-2xl font-bold text-green-400">0</div>
+                <div class="text-xs text-gray-400 mt-1">Sources</div>
+            </div>
+            <div class="stat-card glass-card rounded-xl p-4 text-center">
+                <div id="stat-tags" class="text-2xl font-bold text-green-400">0</div>
+                <div class="text-xs text-gray-400 mt-1">Unique Tags</div>
+            </div>
+            <div class="stat-card glass-card rounded-xl p-4 text-center">
+                <div id="stat-showing" class="text-2xl font-bold text-green-400">0</div>
+                <div class="text-xs text-gray-400 mt-1">Showing</div>
+            </div>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="glass-card rounded-2xl p-6 mb-8">
+            <div class="mb-6">
+                <div class="relative">
+                    <input
+                        type="text"
+                        id="search-input"
+                        placeholder="Search skills by name, description, or tags..."
+                        class="w-full px-5 py-3 pl-12 rounded-xl glass-input text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-transparent"
+                    >
+                    <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
                 </div>
-                <div>
-                    <h1 class="text-lg font-bold text-gray-800">Skills Catalog</h1>
-                    <p class="text-xs text-gray-500">Explore all skills</p>
+            </div>
+
+            <!-- Source Filters -->
+            <div class="mb-6">
+                <h3 class="text-sm font-semibold text-gray-300 mb-3 flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                    Filter by Source
+                </h3>
+                <div id="source-filters" class="flex flex-wrap gap-2">
+                    <!-- Filters will be populated by JS -->
                 </div>
             </div>
-            <div class="hidden md:flex items-center gap-6">
-                <div class="text-sm text-gray-600">
-                    <span class="font-semibold text-emerald-600" id="filteredCount">0</span> skills found
+
+            <!-- Tag Filters -->
+            <div>
+                <h3 class="text-sm font-semibold text-gray-300 mb-3 flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                    </svg>
+                    Filter by Tag
+                </h3>
+                <div id="tag-filters" class="flex flex-wrap gap-2">
+                    <!-- Filters will be populated by JS -->
                 </div>
             </div>
         </div>
-    </header>
 
-    <!-- Main Content -->
-    <main class="pt-24 px-4 pb-12">
-        <div class="max-w-7xl mx-auto">
-
-            <!-- Search Bar -->
-            <section class="glass-card rounded-2xl p-6 mb-8">
-                <div class="w-full">
-                    <div class="relative">
-                        <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                        </svg>
-                        <input
-                            type="text"
-                            id="searchInput"
-                            placeholder="Search skills by name or description..."
-                            class="search-input w-full pl-12 pr-4 py-3 rounded-xl text-gray-800"
-                        >
-                    </div>
-                </div>
-            </section>
-
-            <!-- Loading State -->
-            <div id="loadingState" class="text-center py-12">
-                <div class="inline-block">
-                    <svg class="animate-spin h-12 w-12 text-emerald-600 mx-auto mb-4" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    <p class="text-gray-600">Loading skills...</p>
-                </div>
-            </div>
-
-            <!-- Error State -->
-            <div id="errorState" class="hidden text-center py-12">
-                <div class="inline-block">
-                    <svg class="w-16 h-16 text-red-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    <p class="text-gray-800 font-semibold mb-2">Failed to load skills</p>
-                    <p class="text-gray-600 text-sm" id="errorMessage"></p>
-                    <button onclick="loadSkills()" class="mt-4 px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors cursor-pointer">
-                        Retry
-                    </button>
-                </div>
-            </div>
-
-            <!-- Skills Grid -->
-            <section id="skillsGrid" class="hidden">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="skillsContainer">
-                    <!-- Skills will be rendered here -->
-                </div>
-
-                <!-- No Results -->
-                <div id="noResults" class="hidden text-center py-12">
-                    <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    <p class="text-gray-800 font-semibold mb-2">No skills found</p>
-                    <p class="text-gray-600 text-sm">Try adjusting your search</p>
-                </div>
-            </section>
-
+        <!-- Skills Grid -->
+        <div id="skills-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Skills will be populated by JS -->
         </div>
-    </main>
+
+        <!-- Loading State -->
+        <div id="loading" class="text-center py-16">
+            <div class="inline-block animate-spin rounded-full h-8 w-8 border-2 border-green-400 border-t-transparent"></div>
+            <p class="text-gray-400 mt-4">Loading skills...</p>
+        </div>
+
+        <!-- Empty State -->
+        <div id="empty-state" class="hidden text-center py-16">
+            <svg class="mx-auto w-16 h-16 text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <p class="text-gray-400 text-lg">No skills found matching your criteria</p>
+            <p class="text-gray-500 text-sm mt-2">Try adjusting your search or filters</p>
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center mt-12 pt-8 border-t border-white/10">
+            <p class="text-gray-500 text-sm">
+                Install skills via <code class="text-green-400 bg-green-900/30 px-2 py-1 rounded">npx skills add &lt;skill-name&gt;</code>
+            </p>
+            <p class="text-gray-600 text-xs mt-2">
+                Made with ❤️ by the AI agent community
+            </p>
+        </footer>
+    </div>
 
     <script>
+        // State
         let allSkills = [];
         let filteredSkills = [];
+        let currentSourceFilter = null;
+        let currentTagFilter = null;
         let searchQuery = '';
 
-        // Load skills from JSON
+        // Load skills
         async function loadSkills() {
-            const loadingState = document.getElementById('loadingState');
-            const errorState = document.getElementById('errorState');
-            const skillsGrid = document.getElementById('skillsGrid');
-
-            loadingState.classList.remove('hidden');
-            errorState.classList.add('hidden');
-            skillsGrid.classList.add('hidden');
-
             try {
                 const response = await fetch('all_skills.json');
-                if (!response.ok) throw new Error('Failed to fetch skills data');
-
                 allSkills = await response.json();
                 filteredSkills = [...allSkills];
-
-                loadingState.classList.add('hidden');
-                skillsGrid.classList.remove('hidden');
-
-                initializeFilters();
-                renderSkills();
+                initFilters();
+                filterAndRender();
+                updateStats();
             } catch (error) {
                 console.error('Error loading skills:', error);
-                loadingState.classList.add('hidden');
-                errorState.classList.remove('hidden');
-                document.getElementById('errorMessage').textContent = error.message;
+                document.getElementById('loading').innerHTML = '<p class="text-red-400">Failed to load skills</p>';
             }
         }
 
         // Initialize filters
-        function initializeFilters() {
-            // Search input listener
-            document.getElementById('searchInput').addEventListener('input', (e) => {
-                searchQuery = e.target.value.toLowerCase();
-                filterAndRender();
+        function initFilters() {
+            // Get unique sources
+            const sources = [...new Set(allSkills.map(s => s.source))];
+            const sourceFiltersContainer = document.getElementById('source-filters');
+
+            sourceFiltersContainer.innerHTML = `
+                <button class="filter-btn active px-3 py-1.5 rounded-lg text-sm font-medium text-gray-200" data-source="all">
+                    All (${allSkills.length})
+                </button>
+            `;
+
+            sources.forEach(source => {
+                const count = allSkills.filter(s => s.source === source).length;
+                const btn = document.createElement('button');
+                btn.className = 'filter-btn px-3 py-1.5 rounded-lg text-sm font-medium text-gray-200';
+                btn.dataset.source = source;
+                btn.textContent = `${source} (${count})`;
+                btn.onclick = () => filterBySource(source);
+                sourceFiltersContainer.appendChild(btn);
             });
+
+            // Get top tags
+            const allTags = [];
+            allSkills.forEach(skill => {
+                if (skill.tags) {
+                    allTags.push(...skill.tags);
+                }
+            });
+
+            const tagCounts = {};
+            allTags.forEach(tag => {
+                tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+            });
+
+            const topTags = Object.entries(tagCounts)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 20);
+
+            const tagFiltersContainer = document.getElementById('tag-filters');
+
+            topTags.forEach(([tag, count]) => {
+                const btn = document.createElement('button');
+                btn.className = 'filter-btn px-3 py-1.5 rounded-lg text-sm font-medium text-gray-200';
+                btn.dataset.tag = tag;
+                btn.textContent = `${tag} (${count})`;
+                btn.onclick = () => filterByTag(tag);
+                tagFiltersContainer.appendChild(btn);
+            });
+
+            document.getElementById('stat-tags').textContent = Object.keys(tagCounts).length;
+            document.getElementById('stat-sources').textContent = sources.length;
+        }
+
+        // Filter by source
+        function filterBySource(source) {
+            currentSourceFilter = source === 'all' ? null : source;
+            filterAndRender();
+        }
+
+        // Filter by tag
+        function filterByTag(tag) {
+            currentTagFilter = currentTagFilter === tag ? null : tag;
+            filterAndRender();
         }
 
         // Filter and render skills
         function filterAndRender() {
-            filteredSkills = allSkills.filter(skill => {
-                const matchesSearch = !searchQuery ||
-                    skill.name.toLowerCase().includes(searchQuery) ||
-                    skill.description.toLowerCase().includes(searchQuery);
+            // Filter by source
+            filteredSkills = currentSourceFilter
+                ? allSkills.filter(s => s.source === currentSourceFilter)
+                : [...allSkills];
 
-                return matchesSearch;
-            });
+            // Filter by tag
+            if (currentTagFilter) {
+                filteredSkills = filteredSkills.filter(s =>
+                    s.tags && s.tags.includes(currentTagFilter)
+                );
+            }
+
+            // Filter by search query
+            if (searchQuery) {
+                const query = searchQuery.toLowerCase();
+                filteredSkills = filteredSkills.filter(s =>
+                    s.name.toLowerCase().includes(query) ||
+                    (s.description && s.description.toLowerCase().includes(query)) ||
+                    (s.tags && s.tags.some(t => t.toLowerCase().includes(query)))
+                );
+            }
 
             renderSkills();
-            updateFilteredCount();
-        }
-
-        // Update filtered count
-        function updateFilteredCount() {
-            document.getElementById('filteredCount').textContent = filteredSkills.length.toLocaleString();
+            updateFilterButtons();
+            updateStats();
         }
 
         // Render skills
         function renderSkills() {
-            const container = document.getElementById('skillsContainer');
-            const noResults = document.getElementById('noResults');
+            const container = document.getElementById('skills-grid');
+            const loading = document.getElementById('loading');
+            const emptyState = document.getElementById('empty-state');
+
+            loading.classList.add('hidden');
 
             if (filteredSkills.length === 0) {
                 container.innerHTML = '';
-                noResults.classList.remove('hidden');
+                emptyState.classList.remove('hidden');
                 return;
             }
 
-            noResults.classList.add('hidden');
+            emptyState.classList.add('hidden');
 
             container.innerHTML = filteredSkills.map((skill, index) => `
-                <div class="glass-card rounded-xl p-5 fade-in cursor-pointer" style="animation-delay: ${Math.min(index * 0.02, 0.5)}s">
+                <div class="skill-card rounded-xl p-5 animate-fade-in" style="animation-delay: ${index * 20}ms">
                     <div class="flex items-start justify-between mb-3">
-                        <div class="flex-1 min-w-0">
-                            <h3 class="font-semibold text-gray-800 text-base mb-1 truncate" title="${escapeHtml(skill.name)}">
-                                ${escapeHtml(skill.name)}
-                            </h3>
-                            <span class="source-badge source-${skill.source.replace(/[^\w]/g, '')}">${skill.source}</span>
-                        </div>
+                        <h3 class="text-lg font-semibold text-white leading-tight flex-1 pr-2">${escapeHtml(skill.name)}</h3>
+                        <span class="source-badge text-xs px-2 py-1 rounded-full text-gray-300 whitespace-nowrap">
+                            ${escapeHtml(skill.source)}
+                        </span>
                     </div>
-
-                    <p class="text-gray-600 text-sm mb-4 line-clamp-3" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
-                        ${escapeHtml(skill.description || 'No description available')}
-                    </p>
-
-                    <div class="flex items-center justify-between">
-                        <div class="flex flex-wrap gap-2">
-                            ${skill.tags && skill.tags.length > 0 ?
-                                skill.tags.slice(0, 3).map(tag =>
-                                    `<span class="skill-tag text-xs px-2 py-1 rounded-md text-emerald-700">${escapeHtml(tag)}</span>`
-                                ).join('') :
-                                `<span class="text-xs text-gray-400">${skill.repo}</span>`
-                            }
+                    <p class="text-gray-400 text-sm mb-3 line-clamp-2">${escapeHtml(skill.description || 'No description')}</p>
+                    ${skill.tags && skill.tags.length > 0 ? `
+                        <div class="flex flex-wrap gap-1.5 mt-3">
+                            ${skill.tags.slice(0, 5).map(tag => `
+                                <span class="tag text-xs px-2 py-0.5 rounded-full text-green-300" onclick="filterByTag('${escapeHtml(tag)}')">${escapeHtml(tag)}</span>
+                            `).join('')}
+                            ${skill.tags.length > 5 ? `<span class="text-xs text-gray-500">+${skill.tags.length - 5} more</span>` : ''}
                         </div>
-                    </div>
+                    ` : ''}
                 </div>
             `).join('');
         }
 
-        // Escape HTML to prevent XSS
+        // Update filter button states
+        function updateFilterButtons() {
+            // Update source filter buttons
+            document.querySelectorAll('[data-source]').forEach(btn => {
+                const source = btn.dataset.source;
+                if (currentSourceFilter === null && source === 'all') {
+                    btn.classList.add('active');
+                } else if (currentSourceFilter === source) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // Update tag filter buttons
+            document.querySelectorAll('[data-tag]').forEach(btn => {
+                const tag = btn.dataset.tag;
+                if (currentTagFilter === tag) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        // Update statistics
+        function updateStats() {
+            document.getElementById('total-skills').textContent = allSkills.length.toLocaleString();
+            document.getElementById('stat-total').textContent = allSkills.length.toLocaleString();
+            document.getElementById('stat-showing').textContent = filteredSkills.length.toLocaleString();
+        }
+
+        // Escape HTML
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
         }
 
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', loadSkills);
+        // Search input handler
+        document.getElementById('search-input').addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            filterAndRender();
+        });
+
+        // Initialize
+        loadSkills();
     </script>
 </body>
 </html>
