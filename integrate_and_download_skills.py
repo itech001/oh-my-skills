@@ -13,10 +13,17 @@ from typing import List, Dict
 import subprocess
 import sys
 
+# 获取脚本所在目录
+SCRIPT_DIR = Path(__file__).parent.absolute()
+
 # 配置
 OUTPUT_MD = "ALL_SKILLS_INDEX.md"
 SKILLS_OUTPUT_DIR = "all_skills_collection"
 TOP_100_COUNT = 100
+
+# JSON 文件路径
+ALL_SKILLS_JSON = SCRIPT_DIR / "all_skills.json"
+SKILLS_SH_JSON = SCRIPT_DIR / "skills_sh_all.json"
 
 # 颜色输出
 class Colors:
@@ -50,11 +57,12 @@ def load_all_skills_json() -> List[Dict]:
     """从 all_skills.json 加载本地技能"""
     print_info("加载本地技能数据...")
 
-    if not os.path.exists('all_skills.json'):
-        print_error("all_skills.json 不存在，请先运行 scan_skills.py")
+    if not ALL_SKILLS_JSON.exists():
+        print_error(f"all_skills.json 不存在于 {ALL_SKILLS_JSON}")
+        print_error("请先运行 scan_skills.py")
         return []
 
-    with open('all_skills.json', 'r', encoding='utf-8') as f:
+    with open(ALL_SKILLS_JSON, 'r', encoding='utf-8') as f:
         skills = json.load(f)
 
     print_success(f"加载了 {len(skills)} 个本地技能")
@@ -64,11 +72,11 @@ def load_top_skills_sh(count: int = TOP_100_COUNT) -> List[Dict]:
     """从 skills_sh_all.json 加载前 N 个技能"""
     print_info(f"加载 skills.sh 前 {count} 个技能...")
 
-    if not os.path.exists('skills_sh_all.json'):
-        print_warning("skills_sh_all.json 不存在，跳过 skills.sh 技能")
+    if not SKILLS_SH_JSON.exists():
+        print_warning(f"skills_sh_all.json 不存在于 {SKILLS_SH_JSON}，跳过 skills.sh 技能")
         return []
 
-    with open('skills_sh_all.json', 'r', encoding='utf-8') as f:
+    with open(SKILLS_SH_JSON, 'r', encoding='utf-8') as f:
         data = json.load(f)
         skills = data.get('skills', [])[:count]
 
@@ -230,18 +238,19 @@ npx skills add oyqsbbe6/oh-my-skills
 
 def save_markdown(content: str, filename: str = OUTPUT_MD):
     """保存 Markdown 文件"""
-    print_info(f"保存 Markdown 文件到 {filename}...")
+    output_path = SCRIPT_DIR / filename
+    print_info(f"保存 Markdown 文件到 {output_path}...")
 
-    with open(filename, 'w', encoding='utf-8') as f:
+    with open(output_path, 'w', encoding='utf-8') as f:
         f.write(content)
 
-    print_success(f"Markdown 文件已保存: {filename}")
+    print_success(f"Markdown 文件已保存: {output_path}")
 
 def copy_local_skills(local_skills: List[Dict]):
     """复制本地技能到统一目录"""
     print_header("复制本地技能到统一目录")
 
-    output_dir = Path(SKILLS_OUTPUT_DIR)
+    output_dir = SCRIPT_DIR / SKILLS_OUTPUT_DIR
     output_dir.mkdir(exist_ok=True)
 
     print_info(f"目标目录: {output_dir.absolute()}")
@@ -251,12 +260,16 @@ def copy_local_skills(local_skills: List[Dict]):
 
     for skill in local_skills:
         skill_path = skill.get('path', '')
-        if not skill_path or not os.path.exists(skill_path):
+
+        # 尝试相对于脚本目录的路径
+        skill_path_abs = SCRIPT_DIR / skill_path if not os.path.isabs(skill_path) else Path(skill_path)
+
+        if not skill_path or not skill_path_abs.exists():
             skipped += 1
             continue
 
         # 获取技能目录
-        skill_dir = Path(skill_path).parent
+        skill_dir = skill_path_abs.parent
         skill_name = skill.get('name', 'unknown')
 
         # 目标路径
@@ -285,7 +298,7 @@ def download_skills_sh_skills(skills_sh_skills: List[Dict]):
     """下载 skills.sh 技能到本地"""
     print_header("下载 Skills.sh 技能")
 
-    output_dir = Path(SKILLS_OUTPUT_DIR)
+    output_dir = SCRIPT_DIR / SKILLS_OUTPUT_DIR
     output_dir.mkdir(exist_ok=True)
 
     print_info(f"目标目录: {output_dir.absolute()}")
@@ -363,7 +376,7 @@ def create_collection_readme():
 *由 integrate_and_download_skills.py 自动生成*
 """
 
-    readme_path = Path(SKILLS_OUTPUT_DIR) / "README.md"
+    readme_path = SCRIPT_DIR / SKILLS_OUTPUT_DIR / "README.md"
     with open(readme_path, 'w', encoding='utf-8') as f:
         f.write(readme_content)
 
