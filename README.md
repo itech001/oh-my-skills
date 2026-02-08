@@ -23,71 +23,59 @@ npx skills add vercel-labs/agent-skills --skill frontend-design --skill web-desi
 npx skills add itech001/oh-my-skills --all
 ```
 
-### Install All Skills
+### Install All Skills (Recommended)
 
-For maximum capability, clone this repository to get all skills from all sources:
-
-```bash
-# Clone the repository
-git clone https://github.com/itech001/oh-my-skills.git
-cd oh-my-skills
-
-# Initialize all submodules
-git submodule update --init --recursive
-```
-
-### Manual Installation
-
-Alternatively, clone this repository and run the download script:
+For maximum capability, clone this repository and run the download script to get all skills from all sources:
 
 ```bash
 # Clone the repository
 git clone https://github.com/itech001/oh-my-skills.git
 cd oh-my-skills
 
-# Run the download script (syncs submodules, copies skills, downloads from skills.sh, links to AI tools)
+# Run the download script - this does everything:
+# - Syncs all git submodules to latest
+# - Copies local skills to all_skills_collection/
+# - Downloads top 100 skills from skills.sh
+# - Links all AI tools to the unified skill directory
 python3 download_good_skills.py
-
-# View the generated index
-cat ALL_SKILLS_INDEX.md
-
-# Browse the unified skills collection
-ls -la all_skills_collection/
 ```
 
-### Download All Skills
+**What the script does:**
+1. **Sync Submodules** - Updates all git submodules to latest versions
+2. **Scan Skills** - Finds all directories containing `SKILL.md` files
+3. **Copy Local Skills** - Copies submodule skills to `all_skills_collection/`
+4. **Download from skills.sh** - Fetches top 100 skills and their repositories
+5. **Generate Index** - Creates `ALL_SKILLS_INDEX.md` with skill-to-repo mappings
+6. **Link AI Tools** - Creates symlinks so all AI tools can access the skills
 
-Use the `download_good_skills.py` script to sync all submodules, copy skills, download from skills.sh, and link to all AI tools:
-
+**Options:**
 ```bash
-# Full workflow (default): sync submodules, copy skills, download top 100 from skills.sh, link to AI tools
-python3 download_good_skills.py
-
-# Skip downloading from skills.sh (only use local submodules)
+# Skip downloading from skills.sh (local submodules only)
 python3 download_good_skills.py --skip-download
 
 # Skip linking to AI tools
 python3 download_good_skills.py --skip-link
 
-# Download top 50 instead of 100 from skills.sh
+# Download top 50 instead of 100
 python3 download_good_skills.py --top 50
-
-# Custom output file
-python3 download_good_skills.py --output my_skills_index.md
 
 # See all options
 python3 download_good_skills.py --help
 ```
 
-**What this script does:**
-1. Syncs all git submodules to latest
-2. Scans submodules for skills (finds directories containing `SKILL.md`)
-3. Copies local submodule skills to `all_skills_collection/`
-4. Fetches top skills from skills.sh
-5. Downloads their repositories
-6. Copies only the specified skills (ignores others in the same repo)
-7. Generates `ALL_SKILLS_INDEX.md` with skill-to-repo mappings
-8. Links all AI tools to `all_skills_collection/`
+**Supported AI Tools (37 tools):**
+
+| Category | Tools |
+|----------|-------|
+| **Claude** | claude-code |
+| **GitHub** | github-copilot, codex |
+| **Cursor** | cursor, cline, windsurf, zencoder, trae, trae-cn |
+| **VS Code** | continue, augment, codebuddy |
+| **Gemini** | gemini-cli, antigravity |
+| **Open Source** | openclaw, openhands, opencode, goose, pi, roo |
+| **Other** | amp, kimi-cli, replit, command-code, crush, droid, junie, iflow-cli, kilo, kiro-cli, kode, mcpjam, mistral-vibe, mux, qoder, qwen-code, neovate, pochi, adal |
+
+The script automatically creates symbolic links from each tool's skills directory to `all_skills_collection/`, so all installed AI assistants can access the same unified skill set.
 
 ## 📊 Skills Index
 
