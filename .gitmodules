@@ -13,18 +13,9 @@
 [submodule "submodules/vercel-skills"]
 	path = submodules/vercel-skills
 	url = https://github.com/vercel-labs/agent-skills.git
-[submodule "submodules/awesome-skills"]
-	path = submodules/awesome-skills
-	url = https://github.com/sickn33/antigravity-awesome-skills.git
 [submodule "submodules/everything-skills"]
 	path = submodules/everything-skills
 	url = https://github.com/affaan-m/everything-claude-code.git
-[submodule "submodules/moltbot-skills"]
-	path = submodules/moltbot-skills
-	url = https://github.com/VoltAgent/awesome-openclaw-skills.git
-[submodule "submodules/openclaw-skills"]
-	path = submodules/openclaw-skills
-	url = https://github.com/openclaw/skills.git
 [submodule "submodules/awesome-copilot"]
 	path = submodules/awesome-copilot
 	url = https://github.com/github/awesome-copilot.git
