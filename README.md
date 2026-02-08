@@ -1,6 +1,6 @@
 # Oh My Skills
 
-> A curated collection of **745+ high-quality agentic skills** for Claude Code, Gemini CLI, Cursor, Copilot, and other AI coding assistants.
+> A curated collection of **100+ high-quality agentic skills** from submodules, plus access to **120,000+ skills** from skills.sh for Claude Code, Gemini CLI, Cursor, Copilot, and other AI coding assistants.
 
 
 ## 🚀 Quick Start
@@ -35,70 +35,68 @@ git submodule update --init --recursive
 
 ### Manual Installation
 
-Alternatively, clone this repository and scan all skills:
+Alternatively, clone this repository and run the download script:
 
 ```bash
 # Clone the repository
 git clone https://github.com/oyqsbbe6/oh-my-skills.git
 cd oh-my-skills
 
-# Initialize submodules
-git submodule update --init --recursive
+# Run the download script (syncs submodules, copies skills, downloads from skills.sh, links to AI tools)
+python3 download_good_skills.py
 
-# Scan and catalog all skills
-python3 scan_skills.py
+# View the generated index
+cat ALL_SKILLS_INDEX.md
 
-# Open the dashboard
-open dashboard.html
+# Browse the unified skills collection
+ls -la all_skills_collection/
 ```
 
-### Generate Skills Index
+### Download All Skills
 
-Generate a complete Markdown index of all skills:
+Use the `download_good_skills.py` script to sync all submodules, copy skills, download from skills.sh, and link to all AI tools:
 
 ```bash
-# Generate ALL_SKILLS_INDEX.md (default)
-python3 integrate_and_download_skills.py
+# Full workflow (default): sync submodules, copy skills, download top 100 from skills.sh, link to AI tools
+python3 download_good_skills.py
 
-# Generate MD + copy all skills to one directory
-python3 integrate_and_download_skills.py --copy
+# Skip downloading from skills.sh (only use local submodules)
+python3 download_good_skills.py --skip-download
 
-# Generate MD + copy + download skills.sh top 100
-python3 integrate_and_download_skills.py --copy --download
+# Skip linking to AI tools
+python3 download_good_skills.py --skip-link
 
-# See help for more options
-python3 integrate_and_download_skills.py --help
+# Download top 50 instead of 100 from skills.sh
+python3 download_good_skills.py --top 50
+
+# Custom output file
+python3 download_good_skills.py --output my_skills_index.md
+
+# See all options
+python3 download_good_skills.py --help
 ```
 
-See [INTEGRATE_SCRIPT_USAGE.md](INTEGRATE_SCRIPT_USAGE.md) for detailed usage.
+**What this script does:**
+1. Syncs all git submodules to latest
+2. Scans submodules for skills (finds directories containing `SKILL.md`)
+3. Copies local submodule skills to `all_skills_collection/`
+4. Fetches top skills from skills.sh
+5. Downloads their repositories
+6. Copies only the specified skills (ignores others in the same repo)
+7. Generates `ALL_SKILLS_INDEX.md` with skill-to-repo mappings
+8. Links all AI tools to `all_skills_collection/`
 
-## 📊 Skills Dashboard
+## 📊 Skills Index
 
-This repository includes a beautiful **HTML dashboard** with green warming style design to browse and explore all skills:
+After running `download_good_skills.py`, you'll have:
 
-- **Real-time search** - Find skills by name, description, or tags
-- **Source filtering** - Filter by 9 different skill sources
-- **Tag filtering** - Browse by popular tags (Python, React, API, Testing, etc.)
-- **Statistics** - View total skills and breakdown by source
-- **Responsive design** - Works on desktop, tablet, and mobile
-- **Automatic tagging** - Skills are automatically tagged with relevant technologies
+- **`ALL_SKILLS_INDEX.md`** - Complete markdown catalog listing all skills with their source repositories
+- **`all_skills_collection/`** - Unified directory containing all skills (linked to all AI tools)
 
-To use the dashboard:
-
-```bash
-# Scan local skills from submodules
-python3 scan_skills.py
-
-# Open the interactive dashboard
-open dashboard.html
-```
-
-Then:
-1. Filter by source or tags
-2. Search for keywords
-3. Install skills using `npx skills add <skill-name>` or use local skill files
-
-**Note**: For 120,000+ additional skills, visit [skills.sh](https://skills.sh) and use `npx skills add <skill-name>`.
+Browse skills by:
+- Source repository (submodules vs skills.sh)
+- Skill name and description
+- GitHub repository links
 
 ## 📦 Skill Sources
 
@@ -106,17 +104,15 @@ This repository aggregates skills from multiple high-quality sources:
 
 | Source | Skills | Description |
 |--------|--------|-------------|
-| **awesome-skills** | 610 | Antigravity Awesome Skills collection |
-| **everything-skills** | 38 | Everything Claude Code skills |
 | **awesome-copilot** | 29 | GitHub Copilot skills and workflows |
-| **openclaw-skills** | 21 | Community-driven skills for OpenClaw agents |
+| **everything-skills** | 38 | Everything Claude Code skills |
 | **claude-skills** | 16 | Official Anthropic skills |
 | **superpowers** | 14 | Original Superpowers by Jesse Vincent |
 | **planning-with-files** | 12 | Planning and documentation skills |
 | **vercel-skills** | 4 | Vercel Labs official skills |
 | **ui-ux-pro-max** | 1 | UI/UX design intelligence |
 
-**Total from submodules**: 745 skills
+**Total from submodules**: 114+ skills
 **Plus skills.sh**: 120,000+ additional skills available via `npx skills add` at [skills.sh](https://skills.sh)
 
 ## 🛠️ Usage
@@ -133,7 +129,7 @@ Apply react-best-practices to my components
 
 ### Installing Individual Skills
 
-Browse the dashboard, find a skill you want, then install it:
+Browse the skills index or skills.sh, find a skill you want, then install it:
 
 ```bash
 # From skills.sh (120,000+ skills)
@@ -141,8 +137,8 @@ npx skills add <skill-name>
 
 # Examples
 npx skills add claude-code/claude-skills/algorithmic-art
-npx skills add openclaw/marketing-mode
 npx skills add obra/superpowers/brainstorming
+npx skills add vercel-labs/agent-skills
 ```
 
 ### Installing Skill Collections
@@ -153,8 +149,8 @@ Install entire collections at once:
 # Official Anthropic skills
 npx skills add anthropics/skills
 
-# Awesome skills collection
-npx skills add sickn33/antigravity-awesome-skills
+# Vercel Labs skills
+npx skills add vercel-labs/agent-skills
 
 # Superpowers
 npx skills add obra/superpowers
@@ -171,41 +167,36 @@ npx skills add obra/superpowers
 
 ```
 oh-my-skills/
-├── scan_skills.py          # Python script to scan local submodules
-├── all_skills.json         # Generated skills catalog (745 skills)
-├── dashboard.html          # Interactive skills dashboard
-├── submodules/             # Git submodules containing skill collections
-│   ├── awesome-skills/     # Antigravity awesome skills (610)
-│   ├── awesome-copilot/   # GitHub Copilot skills (29)
-│   ├── claude-skills/      # Official Anthropic skills (16)
-│   ├── everything-skills/   # Everything Claude skills (38)
-│   ├── moltbot-skills/     # Moltbot skills (0)
-│   ├── openclaw-skills/    # OpenClaw community skills (21)
-│   ├── planning-with-files/  # Planning skills (12)
-
-│   ├── superpowers/        # Superpowers by obra (14)
-│   ├── ui-ux-pro-max/     # UI/UX design skills (1)
-│   └── vercel-skills/      # Vercel Labs skills (4)
+├── download_good_skills.py   # Main script to sync, download and link all skills
+├── all_skills_collection/    # Unified skills directory (linked to all AI tools)
+├── ALL_SKILLS_INDEX.md       # Generated skills catalog with repo mappings
+├── dashboard.html            # Interactive skills dashboard
+├── skills_sh_downloads/      # Downloaded skills.sh repositories
+├── submodules/               # Git submodules containing skill collections
+│   ├── awesome-copilot/      # GitHub Copilot skills (29)
+│   ├── claude-skills/        # Official Anthropic skills (16)
+│   ├── everything-skills/    # Everything Claude skills (38)
+│   ├── planning-with-files/  # Planning and documentation skills (12)
+│   ├── superpowers/          # Superpowers by obra (14)
+│   ├── ui-ux-pro-max/        # UI/UX design skills (1)
+│   └── vercel-skills/        # Vercel Labs skills (4)
 └── README.md
 ```
 
-**Note**: This repository contains curated skills from submodules (745 skills). For the complete skills.sh directory with 120,000+ skills, use `npx skills add` directly or visit [skills.sh](https://skills.sh).
+**Note**: This repository contains curated skills from submodules (114+ skills). For the complete skills.sh directory with 120,000+ skills, use `npx skills add` directly or visit [skills.sh](https://skills.sh).
 
 ## 🔄 Updating Skills
 
-### Update Submodule Skills
+### Update Skills
 
 To update all skill collections to the latest versions:
 
 ```bash
-# Update all submodules
+# Run the download script again (will sync all submodules to latest)
+python3 download_good_skills.py
+
+# Or manually update submodules only
 git submodule update --remote --merge
-
-# Re-scan to update catalog
-python3 scan_skills.py
-
-# Refresh dashboard
-open dashboard.html
 ```
 
 ### Browse Latest Skills from skills.sh
@@ -223,16 +214,13 @@ npx skills list --limit 50
 open https://skills.sh
 ```
 
-## 🎨 Dashboard Features
+## 🎨 Features
 
-The HTML dashboard includes:
-
-- **Organic Biophilic Design** - Nature-inspired green warming aesthetic
-- **Glassmorphism Cards** - Modern frosted glass UI elements
-- **Real-time Filtering** - Instant search and filter capabilities
-- **Source Badges** - Color-coded badges for each skill source
-- **Responsive Grid** - Adaptive layout for all screen sizes
-- **Smooth Animations** - Fade-in effects and hover transitions
+- **Unified Skills Collection** - All skills in one directory (`all_skills_collection/`)
+- **Multi-Tool Support** - Automatically links to 30+ AI tools
+- **Skills.sh Integration** - Downloads top skills from skills.sh
+- **Markdown Index** - Complete catalog with skill-to-repo mappings
+- **Submodule Sync** - Keeps all submodules up to date
 
 ## 📦 Skill Formats
 
@@ -251,7 +239,7 @@ To add new skills to this collection:
 1. Fork this repository
 2. Add your skill to the appropriate submodule or create a new one
 3. Update the submodule references
-4. Run `python3 scan_skills.py` to update the catalog
+4. Run `python3 download_good_skills.py` to update the catalog
 5. Submit a pull request
 
 ## 📄 License
@@ -263,8 +251,8 @@ This project is MIT License. Individual skills may have their own licenses - ple
 - [skills.sh](https://skills.sh) - The Agent Skills Directory
 - [Agent Skills IO](https://agentskills.io/home) - Agent Skills Platform
 - [anthropics/skills](https://github.com/anthropics/skills) - Official Anthropic skills
-- [sickn33/antigravity-awesome-skills](https://github.com/sickn33/antigravity-awesome-skills) - Awesome skills collection
 - [obra/superpowers](https://github.com/obra/superpowers) - Original Superpowers
+- [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills) - Vercel Labs skills
 
 ## 🌟 Star History
 
