@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+skills_sh_downloads
+all_skills_collection
+
 # C extensions
 *.so
 

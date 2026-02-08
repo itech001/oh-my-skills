@@ -261,6 +261,7 @@ This project is MIT License. Individual skills may have their own licenses - ple
 ## 🔗 Related Projects
 
 - [skills.sh](https://skills.sh) - The Agent Skills Directory
+- [Agent Skills IO](https://agentskills.io/home) - Agent Skills Platform
 - [anthropics/skills](https://github.com/anthropics/skills) - Official Anthropic skills
 - [sickn33/antigravity-awesome-skills](https://github.com/sickn33/antigravity-awesome-skills) - Awesome skills collection
 - [obra/superpowers](https://github.com/obra/superpowers) - Original Superpowers
