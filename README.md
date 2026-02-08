@@ -16,8 +16,8 @@ npx skills add claude-code/claude-skills/algorithmic-art
 # Install a skill collection
 npx skills add vercel-labs/agent-skills
 
-# Install from this repository
-npx skills add oyqsbbe6/oh-my-skills
+# Install from this repository (includes all submodule skills)
+npx skills add itech001/oh-my-skills
 ```
 
 ### Install All Skills
@@ -26,10 +26,10 @@ For maximum capability, clone this repository to get all skills from all sources
 
 ```bash
 # Clone the repository
-git clone https://github.com/oyqsbbe6/oh-my-skills.git
+git clone https://github.com/itech001/oh-my-skills.git
 cd oh-my-skills
 
-# Initialize all submodules (downloads 120,000+ skills from skills.sh)
+# Initialize all submodules
 git submodule update --init --recursive
 ```
 
@@ -39,7 +39,7 @@ Alternatively, clone this repository and run the download script:
 
 ```bash
 # Clone the repository
-git clone https://github.com/oyqsbbe6/oh-my-skills.git
+git clone https://github.com/itech001/oh-my-skills.git
 cd oh-my-skills
 
 # Run the download script (syncs submodules, copies skills, downloads from skills.sh, links to AI tools)
@@ -135,10 +135,19 @@ Browse the skills index or skills.sh, find a skill you want, then install it:
 # From skills.sh (120,000+ skills)
 npx skills add <skill-name>
 
-# Examples
+# Examples from skills.sh
 npx skills add claude-code/claude-skills/algorithmic-art
 npx skills add obra/superpowers/brainstorming
 npx skills add vercel-labs/agent-skills
+
+# Examples from this repo's submodules (install entire collection)
+npx skills add anthropics/skills              # Official Claude skills
+npx skills add obra/superpowers               # Superpowers collection
+npx skills add vercel-labs/agent-skills       # Vercel skills
+npx skills add github/awesome-copilot         # Copilot skills
+npx skills add affaan-m/everything-claude-code # Everything skills
+npx skills add OthmanAdi/planning-with-files  # Planning skills
+npx skills add nextlevelbuilder/ui-ux-pro-max-skill # UI/UX skills
 ```
 
 ### Installing Skill Collections
@@ -154,6 +163,21 @@ npx skills add vercel-labs/agent-skills
 
 # Superpowers
 npx skills add obra/superpowers
+
+# GitHub Copilot skills
+npx skills add github/awesome-copilot
+
+# Everything Claude Code
+npx skills add affaan-m/everything-claude-code
+
+# Planning with files
+npx skills add OthmanAdi/planning-with-files
+
+# UI/UX Pro Max
+npx skills add nextlevelbuilder/ui-ux-pro-max-skill
+
+# This collection (all submodules combined)
+npx skills add itech001/oh-my-skills
 ```
 
 ### Using Skills with Other AI Assistants

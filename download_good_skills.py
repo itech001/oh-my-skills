@@ -513,7 +513,7 @@ npx skills add vercel-labs/agent-skills
 # 无需额外安装，Claude Code 会自动加载
 
 # 或安装完整的技能集合
-npx skills add oyqsbbe6/oh-my-skills
+npx skills add itech001/oh-my-skills
 ```
 
 ### 使用技能
@@ -530,7 +530,7 @@ npx skills add oyqsbbe6/oh-my-skills
 ## 🔗 相关链接
 
 - [skills.sh](https://skills.sh) - 技能目录平台
-- [本项目 GitHub](https://github.com/oyqsbbe6/oh-my-skills)
+- [本项目 GitHub](https://github.com/itech001/oh-my-skills)
 - [Claude Code 文档](https://docs.anthropic.com/claude-code)
 
 ---
