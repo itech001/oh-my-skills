@@ -10,14 +10,17 @@
 The easiest way to install individual skills is using the `skills` CLI (powered by [skills.sh](https://skills.sh)):
 
 ```bash
-# Install a single skill
-npx skills add claude-code/claude-skills/algorithmic-art
-
-# Install a skill collection
+# Install a skill collection from GitHub
 npx skills add vercel-labs/agent-skills
 
-# Install from this repository (includes all submodule skills)
-npx skills add itech001/oh-my-skills
+# List available skills in a collection
+npx skills add vercel-labs/agent-skills --list
+
+# Install specific skills from a collection
+npx skills add vercel-labs/agent-skills --skill frontend-design --skill web-design-guidelines
+
+# Install from this repository
+npx skills add itech001/oh-my-skills --all
 ```
 
 ### Install All Skills
@@ -132,22 +135,20 @@ Apply react-best-practices to my components
 Browse the skills index or skills.sh, find a skill you want, then install it:
 
 ```bash
-# From skills.sh (120,000+ skills)
-npx skills add <skill-name>
+# Install entire collection from GitHub
+npx skills add vercel-labs/agent-skills --all
 
-# Examples from skills.sh
-npx skills add claude-code/claude-skills/algorithmic-art
-npx skills add obra/superpowers/brainstorming
-npx skills add vercel-labs/agent-skills
+# Install to specific agents only
+npx skills add vercel-labs/agent-skills -a claude-code -a cursor --all
 
-# Examples from this repo's submodules (install entire collection)
-npx skills add anthropics/skills              # Official Claude skills
-npx skills add obra/superpowers               # Superpowers collection
-npx skills add vercel-labs/agent-skills       # Vercel skills
-npx skills add github/awesome-copilot         # Copilot skills
-npx skills add affaan-m/everything-claude-code # Everything skills
-npx skills add OthmanAdi/planning-with-files  # Planning skills
-npx skills add nextlevelbuilder/ui-ux-pro-max-skill # UI/UX skills
+# Install globally (available for all projects)
+npx skills add vercel-labs/agent-skills --global --all
+
+# Install specific skills only
+npx skills add vercel-labs/agent-skills --skill skill-creator --skill frontend-design
+
+# Non-interactive install (for CI/CD)
+npx skills add vercel-labs/agent-skills --skill skill-creator -y
 ```
 
 ### Installing Skill Collections
@@ -156,28 +157,28 @@ Install entire collections at once:
 
 ```bash
 # Official Anthropic skills
-npx skills add anthropics/skills
+npx skills add anthropics/skills --all
 
 # Vercel Labs skills
-npx skills add vercel-labs/agent-skills
+npx skills add vercel-labs/agent-skills --all
 
-# Superpowers
-npx skills add obra/superpowers
+# Superpowers collection
+npx skills add obra/superpowers --all
 
 # GitHub Copilot skills
-npx skills add github/awesome-copilot
+npx skills add github/awesome-copilot --all
 
 # Everything Claude Code
-npx skills add affaan-m/everything-claude-code
+npx skills add affaan-m/everything-claude-code --all
 
 # Planning with files
-npx skills add OthmanAdi/planning-with-files
+npx skills add OthmanAdi/planning-with-files --all
 
 # UI/UX Pro Max
-npx skills add nextlevelbuilder/ui-ux-pro-max-skill
+npx skills add nextlevelbuilder/ui-ux-pro-max-skill --all
 
 # This collection (all submodules combined)
-npx skills add itech001/oh-my-skills
+npx skills add itech001/oh-my-skills --all
 ```
 
 ### Using Skills with Other AI Assistants
@@ -207,7 +208,7 @@ oh-my-skills/
 └── README.md
 ```
 
-**Note**: This repository contains curated skills from submodules (114+ skills). For the complete skills.sh directory with 120,000+ skills, use `npx skills add` directly or visit [skills.sh](https://skills.sh).
+**Note**: This repository contains curated skills from submodules (114+ skills). For the complete skills.sh directory with 120,000+ skills, use `npx skills find` to search or visit [skills.sh](https://skills.sh).
 
 ## 🔄 Updating Skills
 
@@ -223,18 +224,28 @@ python3 download_good_skills.py
 git submodule update --remote --merge
 ```
 
-### Browse Latest Skills from skills.sh
-
-skills.sh is constantly updated with new community skills. To browse and install the latest skills:
+### Browse and Manage Skills
 
 ```bash
-# Search for skills
-npx skills search <keyword>
+# Search for skills (interactive)
+npx skills find
 
-# List popular skills
-npx skills list --limit 50
+# Search by keyword
+npx skills find typescript
 
-# Visit skills.sh website
+# List installed skills
+npx skills list
+
+# Check for updates
+npx skills check
+
+# Update all skills
+npx skills update
+
+# Remove a skill
+npx skills remove <skill-name>
+
+# Visit skills.sh for more skills
 open https://skills.sh
 ```
 

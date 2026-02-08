@@ -498,12 +498,18 @@ def generate_markdown(repo_skills: Dict[str, List[Path]], skills_sh_skills: List
 ### 安装单个技能
 
 ```bash
-# 从 skills.sh 安装
-npx skills add <owner>/<repo>
+# 从 GitHub 安装技能集合
+npx skills add <owner>/<repo> --all
 
 # 示例
-npx skills add anthropics/skills
-npx skills add vercel-labs/agent-skills
+npx skills add anthropics/skills --all
+npx skills add vercel-labs/agent-skills --all
+
+# 查看集合中的可用技能
+npx skills add <owner>/<repo> --list
+
+# 安装特定技能
+npx skills add <owner>/<repo> --skill <skill-name>
 ```
 
 ### 安装技能集合
@@ -513,7 +519,7 @@ npx skills add vercel-labs/agent-skills
 # 无需额外安装，Claude Code 会自动加载
 
 # 或安装完整的技能集合
-npx skills add itech001/oh-my-skills
+npx skills add itech001/oh-my-skills --all
 ```
 
 ### 使用技能
